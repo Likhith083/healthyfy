@@ -10,39 +10,6 @@ export default function PatientDashboard() {
   return (
     <div className="min-h-screen bg-background flex justify-center items-start py-12">
       <div className="w-full max-w-6xl flex gap-10">
-        {/* Sidebar */}
-        <aside className="w-80 flex-shrink-0 flex flex-col gap-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-2xl">Welcome, lol!</CardTitle>
-              <CardDescription>
-                This is your personal health dashboard. Manage your appointments and health information.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardContent className="flex flex-col gap-3 p-6">
-              <span className="font-semibold">Submit Symptoms</span>
-              <span className="text-sm text-muted-foreground">Not feeling well? Describe your symptoms to get matched with a specialist.</span>
-              <Button className="mt-2 w-full">Describe Symptoms</Button>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex flex-col gap-3 p-6">
-              <span className="font-semibold">My Appointments</span>
-              <span className="text-sm text-muted-foreground">View, reschedule, or cancel your upcoming appointments.</span>
-              <Button variant="outline" className="mt-2 w-full">Manage Appointments</Button>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex flex-col gap-3 p-6">
-              <span className="font-semibold">My Profile</span>
-              <span className="text-sm text-muted-foreground">View your profile details and assigned doctor information.</span>
-              <Button variant="outline" className="mt-2 w-full">View Profile</Button>
-            </CardContent>
-          </Card>
-        </aside>
-
         {/* Main Content */}
         <main className="flex-1 flex flex-col gap-8">
           <Card className="flex flex-col items-center p-8 gap-3">

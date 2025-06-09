@@ -41,6 +41,7 @@ export default function DoctorProfilePage() {
 
   useEffect(() => {
     if (user && user.role === 'doctor') {
+      console.log('Logged-in doctor userId:', user.id); // Log the userId
       const profile = getDoctorProfile(user.id);
       setDoctorProfile(profile || null);
       form.reset({
@@ -152,6 +153,13 @@ export default function DoctorProfilePage() {
           )}
         </Card>
       </form>
+
+      {/* Logout Button */}
+      <div className="flex justify-center mt-8">
+        <Button variant="destructive" onClick={logout}>
+          Log Out
+        </Button>
+      </div>
     </div>
   );
 }

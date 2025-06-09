@@ -10,9 +10,11 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { UserCog, Stethoscope, Edit3, Mail, Phone, CalendarDays } from 'lucide-react';
 import Image from 'next/image';
+import { format, parseISO } from 'date-fns';
+import { getAppointments } from '@/lib/dataService';
 
 export default function PatientProfilePage() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [patientDetails, setPatientDetails] = useState<PatientData | null>(null);
   const [assignedDoctor, setAssignedDoctor] = useState<{ profile: DoctorProfile; user: User } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -57,7 +59,7 @@ export default function PatientProfilePage() {
           </CardTitle>
           <CardDescription>Your personal and health information.</CardDescription>
         </CardHeader>
-        <CardContent className="grid md:grid-cols-2 gap-6">
+        <CardContent className="flex flex-row gap-12 w-full">
           <div className="space-y-4">
             <div className="flex items-center space-x-4">
               <Avatar className="h-20 w-20 border-2 border-primary">
@@ -152,6 +154,43 @@ export default function PatientProfilePage() {
           </CardContent>
         </Card>
       )}
+
+      {user && (
+        <Card className="shadow-md">
+          <CardHeader>
+            <CardTitle className="font-headline text-xl">Appointment History</CardTitle>
+            <CardDescription>Your past appointments, doctor notes, and prescriptions.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {getAppointments({ patientId: user.id }).length === 0 ? (
+              <p className="text-muted-foreground">No appointments found.</p>
+            ) : (
+              <ul className="space-y-3">
+                {getAppointments({ patientId: user.id })
+                  .sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime())
+                  .map(appt => (
+                    <li key={appt.id} className="p-3 border rounded-md bg-muted/20">
+                      <p className="font-medium">
+                        {format(parseISO(appt.dateTime), "PPPPp")}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Doctor: {appt.doctorName} ({appt.doctorSpecialization})</p>
+                      <p className="text-xs text-muted-foreground">Reason: {appt.reason || "General Checkup"}</p>
+                      {appt.notes && <p className="text-xs text-muted-foreground mt-1"><strong>Doctor's Notes:</strong> {appt.notes}</p>}
+                      {appt.prescription && <p className="text-xs text-muted-foreground mt-1"><strong>Prescription:</strong> {appt.prescription}</p>}
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Logout Button */}
+      <div className="flex justify-center mt-8">
+        <Button variant="destructive" onClick={logout}>
+          Log Out
+        </Button>
+      </div>
     </div>
   );
 }

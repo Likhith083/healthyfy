@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { getAppointments, findUserById, getPatientData } from "@/lib/dataService";
+import { getAppointments, findUserById, getPatientData, getUsers } from "@/lib/dataService";
 import type { User, PatientData } from "@/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -24,28 +24,36 @@ export default function DoctorManagePatientsPage() {
 
   useEffect(() => {
     if (user && user.role === 'doctor') {
-      const doctorAppointments = getAppointments({ doctorId: user.id });
+      // Get all patients assigned to this doctor
+      const assignedPatients = getUsers('patient').filter(p => {
+        const pdata = getPatientData(p.id);
+        return pdata && pdata.assignedDoctorId === user.id;
+      });
+      console.log('Assigned patients for doctor', user.id, assignedPatients);
+      // Map for quick lookup
       const patientMap = new Map<string, DoctorPatientView>();
-
+      assignedPatients.forEach(patientUser => {
+        const patientProfileData = getPatientData(patientUser.id);
+        patientMap.set(patientUser.id, {
+          ...patientUser,
+          totalAppointments: 0,
+          symptomsSummary: patientProfileData?.symptomsLog.slice(-1)[0]?.symptoms.substring(0, 50) + "..." || "No recent symptoms"
+        });
+      });
+      // Add appointment info
+      const doctorAppointments = getAppointments({ doctorId: user.id });
       doctorAppointments.forEach(appt => {
-        const patientUser = findUserById(appt.patientId);
-        if (patientUser) {
-          if (!patientMap.has(patientUser.id)) {
-            const patientProfileData = getPatientData(patientUser.id);
-            patientMap.set(patientUser.id, { 
-              ...patientUser, 
-              totalAppointments: 0,
-              symptomsSummary: patientProfileData?.symptomsLog.slice(-1)[0]?.symptoms.substring(0, 50) + "..." || "No recent symptoms"
-            });
-          }
-          const existingPatient = patientMap.get(patientUser.id)!;
+        const existingPatient = patientMap.get(appt.patientId);
+        if (existingPatient) {
           existingPatient.totalAppointments!++;
           if (!existingPatient.lastAppointment || new Date(appt.dateTime) > new Date(existingPatient.lastAppointment)) {
             existingPatient.lastAppointment = appt.dateTime;
           }
         }
       });
-      setPatients(Array.from(patientMap.values()));
+      const finalPatients = Array.from(patientMap.values());
+      console.log('Final patient list for doctor', user.id, finalPatients);
+      setPatients(finalPatients);
     }
   }, [user]);
   

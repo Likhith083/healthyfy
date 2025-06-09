@@ -18,7 +18,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="w-full px-8 flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <Stethoscope className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">Health Portal</span>
@@ -28,7 +28,7 @@ export default function HomePage() {
               Login
             </Link>
             <Link 
-              href="/register" 
+              href="/signup" 
               className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Get Started
@@ -40,7 +40,7 @@ export default function HomePage() {
       <main>
         {/* Hero Section */}
         <section className="relative py-20 overflow-hidden">
-          <div className="container relative z-10">
+          <div className="w-full px-8 relative z-10">
             <div className="grid gap-12 lg:grid-cols-2 items-center">
               <div className="space-y-8 animate-fade-in">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
@@ -51,7 +51,7 @@ export default function HomePage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link 
-                    href="/register" 
+                    href="/signup" 
                     className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-lg font-medium text-primary-foreground hover:bg-primary/90 transition-colors hover-lift"
                   >
                     Get Started
@@ -81,7 +81,7 @@ export default function HomePage() {
 
         {/* How It Works Section */}
         <section className="py-20 bg-muted/50">
-          <div className="container">
+          <div className="w-full px-8">
             <div className="text-center space-y-4 mb-12 animate-fade-in">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 How It Works
@@ -124,7 +124,7 @@ export default function HomePage() {
 
         {/* Features Section */}
         <section className="py-20">
-          <div className="container">
+          <div className="w-full px-8">
             <div className="grid gap-12 lg:grid-cols-2 items-center">
               <div className="relative h-[400px] lg:h-[600px] animate-zoom-in">
                 <Image
@@ -168,7 +168,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="border-t bg-muted/50">
-        <div className="container py-12">
+        <div className="w-full px-8 py-12">
           <div className="grid gap-8 md:grid-cols-4">
             <div className="space-y-4">
               <div className="flex items-center gap-2">

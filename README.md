@@ -82,6 +82,61 @@ npm run dev
 
 The application will be available at `http://localhost:3000`
 
+## Sample Accounts
+
+For demonstration purposes, the following sample accounts are pre-configured with appointments and interactions:
+
+### Sample Patient Account
+- **Email**: patient@healthmatch.direct
+- **Password**: patient123
+- **Name**: Sarah Johnson
+- **Role**: Patient
+
+### Sample Doctor Account
+- **Email**: cardio@healthmatch.direct
+- **Password**: password123
+- **Name**: Dr. Eve Heartwell
+- **Role**: Doctor
+- **Specialization**: Cardiologist
+
+### Sample Interactions
+The sample accounts have the following pre-configured interactions:
+
+1. **Appointments**:
+   - Initial Consultation (Completed)
+     - Date: 2024-03-15
+     - Status: Completed
+     - Notes: Initial assessment of heart condition
+     - Prescription: Beta blockers prescribed
+   
+   - Follow-up Appointment (Scheduled)
+     - Date: 2024-04-01
+     - Status: Scheduled
+     - Reason: Medication effectiveness check
+   
+   - Emergency Visit (Completed)
+     - Date: 2024-03-20
+     - Status: Completed
+     - Notes: Chest pain evaluation
+     - Prescription: Updated medication dosage
+
+2. **Medical History**:
+   - Diagnosed with mild hypertension
+   - Regular blood pressure monitoring
+   - ECG results from initial consultation
+   - Medication history with beta blockers
+
+3. **Communication**:
+   - Multiple secure messages between patient and doctor
+   - Appointment scheduling discussions
+   - Medication adjustment queries
+   - Test result discussions
+
+To test the system:
+1. Log in as the patient to view appointments, medical history, and communicate with the doctor
+2. Log in as the doctor to manage appointments, view patient records, and respond to messages
+3. Try scheduling new appointments and sending messages between accounts
+
 ## Development
 
 ### Available Scripts

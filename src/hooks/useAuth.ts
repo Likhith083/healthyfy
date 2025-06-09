@@ -38,9 +38,12 @@ export function useAuth(): AuthState {
 
   const login = useCallback(async (email: string, password_unsafe: string): Promise<User | null> => {
     setIsLoading(true);
+    console.log('Attempting login with:', { email });
     const foundUser = findUserByEmail(email);
+    console.log('Found user:', foundUser);
     
     if (foundUser && foundUser.password === password_unsafe) { // Password check (unsafe, for demo only)
+      console.log('Password match successful');
       const userToStore = { ...foundUser };
       delete userToStore.password; // Don't store password in state or client-side localStorage
       setUser(userToStore);
@@ -49,6 +52,7 @@ export function useAuth(): AuthState {
       router.push(`/${foundUser.role}/dashboard`);
       return userToStore;
     }
+    console.log('Login failed - user not found or password mismatch');
     setIsLoading(false);
     return null;
   }, [router]);
@@ -79,7 +83,7 @@ export function useAuth(): AuthState {
   const logout = useCallback(() => {
     setUser(null);
     removeLocalStorageItem(CURRENT_USER_KEY);
-    router.push('/login');
+    router.push('/');
   }, [router]);
 
   return { user, isLoading, login, signup, logout };

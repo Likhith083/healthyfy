@@ -4,7 +4,6 @@ import * as React from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppHeader } from "./AppHeader";
 import { AppSidebarContent } from "./AppSidebarContent";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -58,7 +57,6 @@ export function AppShell({ children }: AppShellProps) {
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <AppHeader />
       <div className="flex min-h-[calc(100vh-4rem)]"> {/* 4rem is header height */}
         <Sidebar collapsible="icon">
           <AppSidebarContent userRole={user.role} />

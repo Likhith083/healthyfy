@@ -189,7 +189,7 @@ export default function PatientAppointmentsPage() {
         </TabsList>
         <TabsContent value="upcoming">
           {upcomingAppointments.length > 0 ? (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4">
+            <div className="grid grid-cols-3 gap-8 w-full mt-4">
               {upcomingAppointments.map(app => (
                 <AppointmentCard key={app.id} appointment={app} onReschedule={handleReschedule} onCancel={handleCancel} />
               ))}
@@ -200,7 +200,7 @@ export default function PatientAppointmentsPage() {
         </TabsContent>
         <TabsContent value="past">
           {pastAppointments.length > 0 ? (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4">
+            <div className="grid grid-cols-3 gap-8 w-full mt-4">
               {pastAppointments.map(app => (
                 <AppointmentCard key={app.id} appointment={app} onReschedule={handleReschedule} onCancel={handleCancel} />
               ))}

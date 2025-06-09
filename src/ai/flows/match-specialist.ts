@@ -9,6 +9,7 @@
  */
 
 import { z } from 'zod';
+import { ai } from '../genkit';
 
 const MatchSpecialistInputSchema = z.object({
   symptoms: z.string(),

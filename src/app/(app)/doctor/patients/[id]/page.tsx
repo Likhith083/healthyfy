@@ -9,9 +9,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowLeft, UserCircle, Mail, Phone, CalendarPlus, FileText, Edit3 } from "lucide-react";
 import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose, DialogDescription } from "@/components/ui/dialog";
 import { format, parseISO } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { Label } from "@/components/ui/label";
 
 
 export default function DoctorPatientDetailPage({ params }: { params: { id: string } }) {
@@ -21,6 +22,7 @@ export default function DoctorPatientDetailPage({ params }: { params: { id: stri
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [editingAppointment, setEditingAppointment] = useState<Appointment | null>(null);
   const [noteContent, setNoteContent] = useState("");
+  const [prescriptionContent, setPrescriptionContent] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
@@ -43,12 +45,17 @@ export default function DoctorPatientDetailPage({ params }: { params: { id: stri
 
   const handleSaveNote = () => {
     if (editingAppointment && doctorUser) {
-        const updatedAppt = {...editingAppointment, notes: noteContent};
-        updateAppointment(updatedAppt);
-        setAppointments(getAppointments({ patientId: params.id, doctorId: doctorUser.id }).sort((a,b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()));
-        setEditingAppointment(null);
-        setNoteContent("");
-        toast({title: "Note Saved", description: "Diagnostic note has been updated."});
+      const updatedAppt = {
+        ...editingAppointment,
+        notes: noteContent,
+        prescription: prescriptionContent,
+      };
+      updateAppointment(updatedAppt);
+      setAppointments(getAppointments({ patientId: params.id, doctorId: doctorUser.id }).sort((a,b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()));
+      setEditingAppointment(null);
+      setNoteContent("");
+      setPrescriptionContent("");
+      toast({title: "Note & Prescription Saved", description: "Diagnostic note and prescription have been updated."});
     }
   };
 
@@ -117,13 +124,14 @@ export default function DoctorPatientDetailPage({ params }: { params: { id: stri
                             <p className="text-xs text-muted-foreground capitalize">Status: <span className={`font-semibold ${appt.status === 'confirmed' ? 'text-green-600' : appt.status === 'cancelled' ? 'text-red-600' : 'text-yellow-600'}`}>{appt.status}</span></p>
                         </div>
                         <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={() => {setEditingAppointment(appt); setNoteContent(appt.notes || "")}}>
+                            <Button variant="ghost" size="icon" onClick={() => {setEditingAppointment(appt); setNoteContent(appt.notes || ""); setPrescriptionContent(appt.prescription || "");}}>
                                 <Edit3 className="h-4 w-4"/>
                             </Button>
                         </DialogTrigger>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">Reason: {appt.reason || "N/A"}</p>
                     {appt.notes && <p className="text-xs text-muted-foreground mt-1"><strong>Notes:</strong> {appt.notes}</p>}
+                    {appt.prescription && <p className="text-xs text-muted-foreground mt-1"><strong>Prescription:</strong> {appt.prescription}</p>}
                   </li>
                 ))}
               </ul>
@@ -132,7 +140,7 @@ export default function DoctorPatientDetailPage({ params }: { params: { id: stri
         </Card>
       </div>
         
-      <Dialog open={!!editingAppointment} onOpenChange={(isOpen) => !isOpen && setEditingAppointment(null)}>
+      <Dialog open={!!editingAppointment} onOpenChange={(isOpen) => { if (!isOpen) { setEditingAppointment(null); setPrescriptionContent(""); } }}>
         <DialogContent>
             <DialogHeader>
                 <DialogTitle>Manage Appointment Note</DialogTitle>
@@ -140,9 +148,15 @@ export default function DoctorPatientDetailPage({ params }: { params: { id: stri
                     For appointment on {editingAppointment && format(parseISO(editingAppointment.dateTime), "PPp")}.
                 </DialogDescription>
             </DialogHeader>
-            <div className="py-4">
-                <Label htmlFor="notes" className="font-medium">Diagnostic Notes / Treatment Plan</Label>
-                <Textarea id="notes" value={noteContent} onChange={(e) => setNoteContent(e.target.value)} rows={6} className="mt-1"/>
+            <div className="py-4 space-y-4">
+                <div>
+                    <Label htmlFor="notes" className="font-medium">Diagnostic Notes / Treatment Plan</Label>
+                    <Textarea id="notes" value={noteContent} onChange={(e) => setNoteContent(e.target.value)} rows={4} className="mt-1"/>
+                </div>
+                <div>
+                    <Label htmlFor="prescription" className="font-medium">Prescription / Medication Instructions</Label>
+                    <Textarea id="prescription" value={prescriptionContent} onChange={(e) => setPrescriptionContent(e.target.value)} rows={3} className="mt-1"/>
+                </div>
             </div>
             <DialogFooter>
                 <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>

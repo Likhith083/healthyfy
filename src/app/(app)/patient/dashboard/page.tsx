@@ -54,9 +54,9 @@ export default function PatientDashboardPage() {
 
   return (
     <div className="min-h-screen bg-background flex justify-center items-start py-12 px-8">
-      <div className="w-full max-w-7xl flex gap-10">
+      <div className="w-full grid grid-cols-[260px_1fr] gap-8">
         {/* Left Column: Quick Actions */}
-        <aside className="w-80 flex-shrink-0 flex flex-col gap-8">
+        <aside className="w-64 flex-shrink-0 flex flex-col gap-8">
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">Quick Actions</CardTitle>
@@ -127,6 +127,8 @@ export default function PatientDashboardPage() {
                       </p>
                       <p className="text-xs text-muted-foreground">With: {appt.doctorName} ({appt.doctorSpecialization})</p>
                       <p className="text-xs text-muted-foreground">Reason: {appt.reason || "General Checkup"}</p>
+                      {appt.notes && <p className="text-xs text-muted-foreground mt-1"><strong>Doctor's Notes:</strong> {appt.notes}</p>}
+                      {appt.prescription && <p className="text-xs text-muted-foreground mt-1"><strong>Prescription:</strong> {appt.prescription}</p>}
                     </div>
                     <div className="flex flex-col items-end gap-2">
                       <Badge variant={statusVariantMap[appt.status] || 'default'} className="capitalize text-xs">

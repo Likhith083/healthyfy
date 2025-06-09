@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Users, Stethoscope, CalendarCheck2, Settings, BarChart3 } from "lucide-react";
 
 export default function AdminDashboardPage() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [totalPatients, setTotalPatients] = useState(0);
   const [totalDoctors, setTotalDoctors] = useState(0);
   const [totalAppointments, setTotalAppointments] = useState(0);
@@ -29,6 +29,10 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
+      {/* Logout Button */}
+      <div className="flex justify-end">
+        <Button variant="destructive" onClick={logout} className="mb-2">Log Out</Button>
+      </div>
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="font-headline text-3xl">Administrator Dashboard</CardTitle>
