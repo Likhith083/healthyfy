@@ -17,6 +17,8 @@ const initialDoctors: User[] = [
   { id: "doc001", email: "cardio@healthmatch.direct", password: "password123", name: "Dr. Eve Heartwell", role: "doctor" },
   { id: "doc002", email: "derma@healthmatch.direct", password: "password123", name: "Dr. Adam Skinnerton", role: "doctor" },
   { id: "doc003", email: "gp@healthmatch.direct", password: "password123", name: "Dr. John Citizen", role: "doctor" },
+  { id: "doc004", email: "alan@healthmatch.direct", password: "password123", name: "Dr. Alan Smith", role: "doctor" },
+
 ];
 
 const initialPatients: User[] = [
