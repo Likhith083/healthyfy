@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: "Connect with healthcare professionals, manage your appointments, and access your medical records all in one place.",
   keywords: "healthcare, medical portal, doctor appointments, patient portal, medical records",
 };
-
+//cool stuff to do
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
